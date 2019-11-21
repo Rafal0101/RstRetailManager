@@ -65,4 +65,10 @@
   <ItemGroup>
     <None Include="PublishLocations\RSTData.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\Sale.sql" />
+    <Build Include="dbo\Tables\SaleDetails.sql" />
+    <Build Include="dbo\Tables\Product.sql" />
+  </ItemGroup>
 </Project>
