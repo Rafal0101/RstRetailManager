@@ -18,15 +18,21 @@
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="1" FontSize="64">Login Form</TextBlock>
 
-        <TextBlock Grid.Row="1" Grid.Column="1" Margin="10">UserName</TextBlock>
-        <TextBox Grid.Row="1" Grid.Column="2" Margin="10"  x:Name="UserName"></TextBox>
-        <TextBlock Grid.Row="2" Grid.Column="1" Margin="10">Password</TextBlock>
-        <PasswordBox Grid.Row="2" Grid.Column="2" Margin="10" x:Name="Password"></PasswordBox>
+        <TextBlock x:Name="ErrorMessage" Text="error"
+                   Grid.Row="1" Grid.Column="1"
+                   Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                   />
 
-        <Button Grid.Row="3" Grid.Column="1" x:Name="LogIn" IsEnabled="{Binding Path=CanLogIn}">Log In</Button>
+        <TextBlock Grid.Row="2" Grid.Column="1" Margin="10">UserName</TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="2" Margin="10"  x:Name="UserName"></TextBox>
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="10">Password</TextBlock>
+        <PasswordBox Grid.Row="3" Grid.Column="2" Margin="10" x:Name="Password"></PasswordBox>
+
+        <Button Grid.Row="4" Grid.Column="1" x:Name="LogIn" IsEnabled="{Binding Path=CanLogIn}">Log In</Button>
     </Grid>
 </UserControl>
