@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSTDesktopUI", "RSTDesktopU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSTDataManager.Library", "RSTDataManager.Library\RSTDataManager.Library.csproj", "{51B48559-CAB2-4B7C-84A2-05A3412262B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSTDesktopUI.Library", "RSTDesktopUI.Library\RSTDesktopUI.Library.csproj", "{5666ED7F-9102-4AB3-B20C-1E45735BF256}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{51B48559-CAB2-4B7C-84A2-05A3412262B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51B48559-CAB2-4B7C-84A2-05A3412262B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51B48559-CAB2-4B7C-84A2-05A3412262B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5666ED7F-9102-4AB3-B20C-1E45735BF256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5666ED7F-9102-4AB3-B20C-1E45735BF256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5666ED7F-9102-4AB3-B20C-1E45735BF256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5666ED7F-9102-4AB3-B20C-1E45735BF256}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
