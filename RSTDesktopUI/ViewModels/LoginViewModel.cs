@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using RSTDesktopUI.EventModels;
 using RSTDesktopUI.Helpers;
 using RSTDesktopUI.Library.Api;
 using System;
@@ -12,10 +13,12 @@ namespace RSTDesktopUI.ViewModels
     public class LoginViewModel : Screen
     {
         private IAPIHelper _apiHelper;
+        private IEventAggregator _events;
 
-        public LoginViewModel(IAPIHelper apiHelper)
+        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
         {
             _apiHelper = apiHelper;
+            _events = events;
         }
 
 
@@ -92,6 +95,8 @@ namespace RSTDesktopUI.ViewModels
                 ErrorMessage = "";
                 var result = await _apiHelper.Authenticate(UserName, Password);
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+
+                _events.PublishOnUIThread(new LogOnEventModel());
             }
             catch (Exception ex)
             {
