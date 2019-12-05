@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using RSTDesktopUI.Helpers;
 using RSTDesktopUI.Library.Api;
+using RSTDesktopUI.Library.Helpers;
 using RSTDesktopUI.Library.Models;
 using RSTDesktopUI.ViewModels;
 using System;
@@ -34,6 +35,7 @@ namespace RSTDesktopUI
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<ILogedInUserModel, LogedInUserModel>()
+                .Singleton<IConfigHelper, ConfigHelper>()
                 .Singleton<IAPIHelper, APIHelper>()
                 .PerRequest<IProductEndpoint, ProductEndpoint>();
 

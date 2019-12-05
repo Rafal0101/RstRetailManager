@@ -7,6 +7,7 @@
     [QuantityInStock] INT NULL DEFAULT 1,
 	[CreateDate] DATETIME2 NOT NULL DEFAULT getdate(),
 	[LastModified] DATETIME2 NOT NULL DEFAULT getdate(), 
+    [IsTaxable] BIT NOT NULL DEFAULT 1, 
 
 
 )

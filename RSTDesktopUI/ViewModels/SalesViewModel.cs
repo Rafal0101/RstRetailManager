@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using RSTDesktopUI.Library.Api;
+using RSTDesktopUI.Library.Helpers;
 using RSTDesktopUI.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace RSTDesktopUI.ViewModels
     public class SalesViewModel : Screen
     {
         private readonly IProductEndpoint _productEndpoint;
-        public SalesViewModel(IProductEndpoint productEndpoint)
+        private readonly IConfigHelper _configHelper;
+
+        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper)
         {
             _productEndpoint = productEndpoint;
-            
+            _configHelper = configHelper;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -86,16 +89,49 @@ namespace RSTDesktopUI.ViewModels
         { 
             get 
             {
-                decimal subTotal = 0;
-                foreach (var item in Cart)
-                {
-                    subTotal += item.Product.RetailPrice * item.QuantityInCart;
-                }
-                return subTotal.ToString("C") ; 
+                return CalculateSubTotal().ToString("C") ; 
             } 
         }
-        public string Total { get { return "$0.00"; } }
-        public string Tax { get { return "$0.00"; } }
+
+        private decimal CalculateSubTotal()
+        {
+            decimal subTotal = 0;
+            foreach (var item in Cart)
+            {
+                subTotal += item.Product.RetailPrice * item.QuantityInCart;
+            }
+            return subTotal;
+        }
+
+        private decimal CalculateTax()
+        {
+            decimal taxAmount = 0;
+            decimal taxRate = _configHelper.GetTaxRate();
+            foreach (var item in Cart)
+            {
+                if (item.Product.IsTaxable)
+                {
+                    taxAmount += item.Product.RetailPrice * item.QuantityInCart * (taxRate / 100);
+                }
+            }
+            return taxAmount;
+        }
+        public string Total 
+        { 
+            get 
+            {
+                decimal total = CalculateSubTotal() + CalculateTax();
+                return total.ToString("C"); 
+            } 
+        }
+        public string Tax 
+        { 
+            get 
+            {
+                return CalculateTax().ToString("C");
+            } 
+        }
+
 
 
 
@@ -137,6 +173,8 @@ namespace RSTDesktopUI.ViewModels
             SelectedProduct.QuantityInStock -= ItemQuantity;
             ItemQuantity = 1;
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
         }
 
         public bool CanRemoveFromCart
@@ -152,6 +190,8 @@ namespace RSTDesktopUI.ViewModels
         public void RemoveFromCart()
         {
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
         }
 
         public bool CanCheckOut
