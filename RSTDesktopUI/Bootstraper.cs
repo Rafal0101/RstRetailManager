@@ -34,7 +34,8 @@ namespace RSTDesktopUI
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<ILogedInUserModel, LogedInUserModel>()
-                .Singleton<IAPIHelper, APIHelper>();
+                .Singleton<IAPIHelper, APIHelper>()
+                .PerRequest<IProductEndpoint, ProductEndpoint>();
 
             GetType().Assembly.GetTypes()
                 .Where(x => x.IsClass)

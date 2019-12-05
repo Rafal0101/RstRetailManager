@@ -1,4 +1,5 @@
 ﻿using RSTDesktopUI.Library.Models;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace RSTDesktopUI.Library.Api
@@ -7,5 +8,7 @@ namespace RSTDesktopUI.Library.Api
     {
         Task<AuthenticatedUser> Authenticate(string username, string password);
         Task GetLoggedInUserInfo(string token);
+
+        HttpClient ApiClient { get; }
     }
 }
