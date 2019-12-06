@@ -4,6 +4,7 @@
 	[FirstName] NVARCHAR(50) NOT NULL,
 	[LastName] NVARCHAR(50) NOT NULL,
 	[EmailAddress] NVARCHAR(256) NOT NULL, 
-	[CreatedDate] DATETIME2 NULL DEFAULT getdate()
+	[CreatedDate] DATETIME2 NULL DEFAULT getdate(), 
+    CONSTRAINT [PK_User] PRIMARY KEY ([Id])
 
 )
