@@ -1,8 +1,10 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using RSTDesktopUI.Helpers;
 using RSTDesktopUI.Library.Api;
 using RSTDesktopUI.Library.Helpers;
 using RSTDesktopUI.Library.Models;
+using RSTDesktopUI.Models;
 using RSTDesktopUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,15 @@ namespace RSTDesktopUI
 
         protected override void Configure()
         {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ProductModel, ProductDisplayModel>();
+                cfg.CreateMap<CartItemModel, CartItemDisplayModel>();
+            });
+            var mapper = config.CreateMapper();
+
+            _container.Instance(mapper);
+
             _container.Instance(_container);
 
             _container
