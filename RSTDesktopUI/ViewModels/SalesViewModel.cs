@@ -15,11 +15,13 @@ namespace RSTDesktopUI.ViewModels
     {
         private readonly IProductEndpoint _productEndpoint;
         private readonly IConfigHelper _configHelper;
+        private readonly ISaleEndpoint _saleEndpoint;
 
-        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper)
+        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper, ISaleEndpoint saleEndpoint)
         {
             _productEndpoint = productEndpoint;
             _configHelper = configHelper;
+            _saleEndpoint = saleEndpoint;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -37,8 +39,8 @@ namespace RSTDesktopUI.ViewModels
         public BindingList<ProductModel> Products
         {
             get { return _product; }
-            set 
-            { 
+            set
+            {
                 _product = value;
                 NotifyOfPropertyChange(() => Products);
 
@@ -50,8 +52,8 @@ namespace RSTDesktopUI.ViewModels
         public ProductModel SelectedProduct
         {
             get { return _selectedProduct; }
-            set 
-            { 
+            set
+            {
                 _selectedProduct = value;
                 NotifyOfPropertyChange(() => SelectedProduct);
                 NotifyOfPropertyChange(() => CanAddToCart);
@@ -74,7 +76,7 @@ namespace RSTDesktopUI.ViewModels
         private int _itemQuantity = 1;
 
 
-        public int  ItemQuantity
+        public int ItemQuantity
         {
             get { return _itemQuantity; }
             set
@@ -85,12 +87,12 @@ namespace RSTDesktopUI.ViewModels
             }
         }
 
-        public string SubTotal 
-        { 
-            get 
+        public string SubTotal
+        {
+            get
             {
-                return CalculateSubTotal().ToString("C") ; 
-            } 
+                return CalculateSubTotal().ToString("C");
+            }
         }
 
         private decimal CalculateSubTotal()
@@ -120,20 +122,20 @@ namespace RSTDesktopUI.ViewModels
             //}
             return taxAmount;
         }
-        public string Total 
-        { 
-            get 
+        public string Total
+        {
+            get
             {
                 decimal total = CalculateSubTotal() + CalculateTax();
-                return total.ToString("C"); 
-            } 
+                return total.ToString("C");
+            }
         }
-        public string Tax 
-        { 
-            get 
+        public string Tax
+        {
+            get
             {
                 return CalculateTax().ToString("C");
-            } 
+            }
         }
 
 
@@ -146,7 +148,7 @@ namespace RSTDesktopUI.ViewModels
             {
                 bool output = false;
 
-                if(ItemQuantity > 0 && SelectedProduct?.QuantityInStock >= ItemQuantity)
+                if (ItemQuantity > 0 && SelectedProduct?.QuantityInStock >= ItemQuantity)
                 {
                     output = true;
                 }
@@ -179,6 +181,7 @@ namespace RSTDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanRemoveFromCart
@@ -196,6 +199,7 @@ namespace RSTDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanCheckOut
@@ -203,13 +207,27 @@ namespace RSTDesktopUI.ViewModels
             get
             {
                 bool output = false;
-
+                if (Cart.Count > 0)
+                {
+                    output = true;
+                }
                 return output;
             }
         }
 
-        public void CheckOut()
+        public async Task CheckOut()
         {
+            SaleModel sale = new SaleModel();
+            foreach (var item in Cart)
+            {
+                sale.SaleDetails.Add(new SaleDetailModel
+                {
+                    ProductId = item.Product.Id,
+                    Quantity = item.QuantityInCart
+                });
+            }
+
+            await _saleEndpoint.PostSale(sale);
 
         }
     }

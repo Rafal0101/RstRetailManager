@@ -37,7 +37,8 @@ namespace RSTDesktopUI
                 .Singleton<ILogedInUserModel, LogedInUserModel>()
                 .Singleton<IConfigHelper, ConfigHelper>()
                 .Singleton<IAPIHelper, APIHelper>()
-                .PerRequest<IProductEndpoint, ProductEndpoint>();
+                .PerRequest<IProductEndpoint, ProductEndpoint>()
+                .PerRequest<ISaleEndpoint, SaleEndpoint>();
 
             GetType().Assembly.GetTypes()
                 .Where(x => x.IsClass)
